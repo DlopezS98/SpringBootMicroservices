@@ -1,5 +1,10 @@
 package net.storyshelf.ms_books.entities;
 
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+
+@Data
 public class BaseEntity {
-    public String id;
+    @Id
+    private String id;
 }
