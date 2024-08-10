@@ -34,7 +34,7 @@ public class AuditableEntity extends BaseEntity implements IHaveCreationData, IH
 */
 
     @Field(type = FieldType.Date, format = DateFormat.basic_date_time)
-    private Instant createdAt;
+    private Instant createdAt = Instant.now();
     @Nullable
     @Field(type = FieldType.Date, format = DateFormat.basic_date_time)
     private Instant updatedAt;

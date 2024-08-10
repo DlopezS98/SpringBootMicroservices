@@ -26,11 +26,13 @@ public class Book extends AuditableEntity {
     private String author;
     @Field(type = FieldType.Keyword)
     private String isbn;
+    private String description;
     @Field(type = FieldType.Integer)
     private int pages;
     private String coverUrl;
     @Field(type = FieldType.Date, format = DateFormat.basic_date_time)
     private Instant publishDate;
     @Field(type = FieldType.Keyword)
-    private List<String> categories = new ArrayList<String>();
+    private List<String> categories = new ArrayList<>();
+    private String publisher;
 }
