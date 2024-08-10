@@ -3,7 +3,7 @@ LABEL authors="DannyLopez"
 
 # RUN ./mvnw install
 
-WORKDIR usr/src/storyshelf
+WORKDIR /usr/src/storyshelf
 COPY target/ms-writer-0.0.1.jar app.jar
 
 EXPOSE 8080
