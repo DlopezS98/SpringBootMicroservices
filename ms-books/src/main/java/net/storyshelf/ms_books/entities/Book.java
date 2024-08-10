@@ -15,11 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(indexName = "books")
-@Setting(
-        sortFields = {"title"},
-        sortOrders = {Setting.SortOrder.desc, Setting.SortOrder.asc},
-        sortMissingValues = {Setting.SortMissing._last, Setting.SortMissing._first}
-)
+//@Setting(
+//        sortFields = {"title"},
+//        sortOrders = {Setting.SortOrder.desc, Setting.SortOrder.asc},
+//        sortMissingValues = {Setting.SortMissing._last, Setting.SortMissing._first}
+//)
 public class Book extends AuditableEntity {
     @Field(type = FieldType.Keyword)
     private String title;
