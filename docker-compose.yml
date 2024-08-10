@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ports:
+      - 9200:9200
+    healthcheck:
+      test: curl -s http://elasticsearch:9200 >/dev/null || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 30
+    networks:
+      - sfnetwork
+    # volumes:
+    #   - ./elasticsearch/data:/usr/share/elasticsearch/data
+    #   - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  books-service:
+    image: books-service
+    container_name: ms-books-service
+    build:
+      context: ./ms-books
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:8080
+    networks:
+      - sfnetwork
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+networks:
+  sfnetwork:
+    driver: bridge
