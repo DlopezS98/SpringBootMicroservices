@@ -4,6 +4,7 @@ LABEL authors="DannyLopez"
 WORKDIR /usr/src/storyshelf
 COPY . .
 
+RUN chmod +x mvnw 
 RUN ./mvnw clean package
 
 EXPOSE 8080
