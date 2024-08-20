@@ -1,71 +1,67 @@
 #!/bin/bash
 
-cleanProjects () {
-    echo "Cleaning all projects"
-    cd cloud-gateway
+# Enable strict error handling
+set -euo pipefail
+
+# Define function to clean a specific project
+cleanProject() {
+    local project_dir=$1
+    echo "Cleaning $project_dir project"
+    cd "$project_dir"
     ./mvnw clean package
-    cd ..
-    cd eurekaserver
-    ./mvnw clean package
-    cd ..
-    cd ms-books
-    ./mvnw clean package
-    cd ..
-    cd ms-writer
-    ./mvnw clean package
-    cd ..
+    cd - > /dev/null
 }
 
-cleanCloudGateway=false;
-cleanEurekaServer=false;
-cleanAllProjects=false;
-cleanMsBooks=false;
-cleanMsWriter=false;
+# Initialize flags
+cleanCloudGateway=false
+cleanEurekaServer=false
+cleanMsBooks=false
+cleanMsWriter=false
+cleanAllProjects=false
 
+# Parse command-line arguments
 while (( $# >= 1 )); do 
     case $1 in
-    --only-gateway) cleanCloudGateway=true;;
-    --only-eureka) cleanEurekaServer=true;;
-    --only-books) cleanMsBooks=true;;
-    --only-writer) cleanMsWriter=true;;
-    --all) cleanAllProjects=true;;
-    *) break;
-    esac;
+        --only-gateway) cleanCloudGateway=true ;;
+        --only-eureka) cleanEurekaServer=true ;;
+        --only-books) cleanMsBooks=true ;;
+        --only-writer) cleanMsWriter=true ;;
+        --all) cleanAllProjects=true ;;
+        *) echo "Invalid option: $1"; exit 1 ;;
+    esac
     shift
 done
 
+# Execute cleaning based on the flags
 if [ "$cleanAllProjects" = true ]; then
-    cleanProjects
-    # exit execution
-    exit 0;
+    cleanProject "cloud-gateway"
+    cleanProject "eurekaserver"
+    cleanProject "ms-books"
+    cleanProject "ms-writer"
+    echo "All projects cleaned successfully"
+    exit 0
 fi
 
 if [ "$cleanCloudGateway" = true ]; then
-    echo "Cleaning cloud gateway project"
-    cd cloud-gateway
-    ./mvnw clean package
-    cd ..
+    cleanProject "cloud-gateway"
 fi
 
 if [ "$cleanEurekaServer" = true ]; then
-    echo "Cleaning eureka server project"
-    cd eureka-server
-    ./mvnw clean package
-    cd ..
+    cleanProject "eurekaserver"
 fi
 
 if [ "$cleanMsBooks" = true ]; then
-    echo "Cleaning ms-books project"
-    cd ms-books
-    ./mvnw clean package
-    cd ..
+    cleanProject "ms-books"
 fi
 
 if [ "$cleanMsWriter" = true ]; then
-    echo "Cleaning ms-writer project"
-    cd ms-writer
-    ./mvnw clean package
-    cd ..
+    cleanProject "ms-writer"
+fi
+
+# Check if any cleaning operation was performed
+if [ "$cleanCloudGateway" = false ] && [ "$cleanEurekaServer" = false ] && [ "$cleanMsBooks" = false ] && [ "$cleanMsWriter" = false ]; then
+    echo "No valid options provided. Exiting."
+    exit 1
 fi
 
 echo "Projects cleaned successfully"
