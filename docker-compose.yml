@@ -15,9 +15,6 @@ services:
       retries: 30
     networks:
       - sfnetwork
-    # volumes:
-    #   - ./elasticsearch/data:/usr/share/elasticsearch/data
-    #   - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
   books-service:
     image: books-service
     container_name: ms-books-service
@@ -46,7 +43,6 @@ services:
     networks:
       - sfnetwork
     environment:
-      # - ELASTICSEARCH_URL=http://elasticsearch:9200
       - MS_WRITER_PORT=8080
       - EUREKA_URL=http://eurekaserver:8761/eureka
   eurekaserver:
@@ -73,6 +69,25 @@ services:
       - sfnetwork
     environment:
       - EUREKA_URL=http://eurekaserver:8761/eureka
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=Qwerty123!
+      - MYSQL_DATABASE=storyshelf
+      - MYSQL_USER=adminstoryshelf
+      - MYSQL_PASSWORD=Qwerty123!
+    ports:
+      - 9008:3306
+    networks:
+      - sfnetwork
+    volumes:
+      - mysql_data:/var/lib/mysql
+
 networks:
   sfnetwork:
     driver: bridge
+
+volumes:
+  mysql_data:
