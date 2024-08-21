@@ -1,7 +1,6 @@
 package net.storyshelf.ms_writer.entities;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 interface IHaveCreationData {
     public String createdBy = "";
