@@ -3,7 +3,7 @@ services:
     image: mysql:8.2
     container_name: mysqldatabase
     ports:
-      - 3306:3306
+      - 9008:3306
     networks:
       - sfnetwork
     environment:
@@ -11,6 +11,8 @@ services:
       MYSQL_DATABASE: $MYSQL_DATABASE
       MYSQL_USER: $MYSQL_USER
       MYSQL_PASSWORD: $MYSQL_PASSWORD
+    volumes:
+      - mysql_data:/var/lib/mysql
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
     container_name: elasticsearch
@@ -81,25 +83,8 @@ services:
       - sfnetwork
     environment:
       - EUREKA_URL=http://eurekaserver:8761/eureka
-
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=Qwerty123!
-      - MYSQL_DATABASE=storyshelf
-      - MYSQL_USER=adminstoryshelf
-      - MYSQL_PASSWORD=Qwerty123!
-    ports:
-      - 9008:3306
-    networks:
-      - sfnetwork
-    volumes:
-      - mysql_data:/var/lib/mysql
-
 networks:
   sfnetwork:
     driver: bridge
-
 volumes:
   mysql_data:
