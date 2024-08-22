@@ -1,24 +1,24 @@
 FROM amazoncorretto:22.0.2-alpine
 LABEL authors="DannyLopez"
 
-# WORKDIR /usr/src/storyshelf
-# COPY . .
+WORKDIR /usr/src/storyshelf
+COPY . .
 
-# RUN chmod +x mvnw 
-# RUN ./mvnw clean package
+RUN chmod +x mvnw 
+RUN ./mvnw clean package
 
-# EXPOSE 8080
+EXPOSE 8080
 
-# WORKDIR /usr/src/storyshelf/target
+WORKDIR /usr/src/storyshelf/target
 
-# ENTRYPOINT ["java", "-jar", "ms-writer-0.0.1.jar"]
+ENTRYPOINT ["java", "-jar", "ms-writer-0.0.1.jar"]
 
 # RUN ./mvnw install
 
-WORKDIR /usr/src/storyshelf
-COPY target/ms-writer-0.0.1.jar app.jar
+# WORKDIR /usr/src/storyshelf
+# COPY target/ms-writer-0.0.1.jar app.jar
 
-EXPOSE 8080
-#EXPOSE 443
+# EXPOSE 8080
+# #EXPOSE 443
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# ENTRYPOINT ["java", "-jar", "app.jar"]
