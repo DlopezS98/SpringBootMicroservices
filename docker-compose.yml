@@ -1,4 +1,16 @@
 services:
+  mysqldatabase:
+    image: mysql:8.2
+    container_name: mysqldatabase
+    ports:
+      - 3306:3306
+    networks:
+      - sfnetwork
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
     container_name: elasticsearch
