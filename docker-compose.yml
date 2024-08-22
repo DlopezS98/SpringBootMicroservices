@@ -40,9 +40,9 @@ services:
     networks:
       - sfnetwork
     environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_URL=$ELASTICSEARCH_URL
       - MS_BOOKS_PORT=8080
-      - EUREKA_URL=http://eurekaserver:8761/eureka
+      - EUREKA_URL=$EUREKA_URL
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -58,7 +58,7 @@ services:
       - sfnetwork
     environment:
       - MS_WRITER_PORT=8080
-      - EUREKA_URL=http://eurekaserver:8761/eureka
+      - EUREKA_URL=$EUREKA_URL
   eurekaserver:
     image: eurekaserver
     container_name: eurekaserver
@@ -82,7 +82,7 @@ services:
     networks:
       - sfnetwork
     environment:
-      - EUREKA_URL=http://eurekaserver:8761/eureka
+      - EUREKA_URL=$EUREKA_URL
 networks:
   sfnetwork:
     driver: bridge
