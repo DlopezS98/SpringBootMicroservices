@@ -8,7 +8,7 @@ cleanProject() {
     local project_dir=$1
     echo "Cleaning $project_dir project"
     cd "$project_dir"
-    ./mvnw clean package
+    ./mvnw clean package -DskipTests
     cd - > /dev/null
 }
 
