@@ -1,6 +1,7 @@
 package net.storyshelf.ms_books.controllers;
 
 import net.storyshelf.ms_books.dtos.CreateBookDto;
+import net.storyshelf.ms_books.dtos.FilteredBookDto;
 import net.storyshelf.ms_books.entities.Book;
 import net.storyshelf.ms_books.services.BooksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,19 @@ public class BooksController {
     }
 
     @GetMapping
-    public Iterable<Book> getBooks() {
-        return booksService.getAllBooks();
+    public Iterable<Book> getBooks(
+        @RequestParam(defaultValue = "") String search, 
+        @RequestParam(defaultValue = "") String category, 
+        @RequestParam(defaultValue = "0") int offset, 
+        @RequestParam(defaultValue = "10") int limit
+    ) {
+        FilteredBookDto filteredBookDto = new FilteredBookDto();
+        filteredBookDto.setSearch(search);
+        filteredBookDto.setCategory(category);
+        filteredBookDto.setOffset(offset);
+        filteredBookDto.setLimit(limit);
+
+        return booksService.getAllBooks(filteredBookDto);
     }
 
     @PostMapping
