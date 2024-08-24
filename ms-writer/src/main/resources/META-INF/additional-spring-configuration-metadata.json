@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "storyshelf.services.books.url",
+      "type": "java.lang.String",
+      "description": "The URL of the books microservice provided by eureka server"
+    }
+  ]
+}

@@ -32,9 +32,15 @@ public class WishListController {
 
     @PostMapping("/{bookId}")
     public ResponseEntity<WishListItem> create(@PathVariable String bookId) throws URISyntaxException {
-        WishListItem wishListItem = wishListService.addBookToWishList(bookId);
-        URI location = new URI(WISHLIST_ITEMS_URL + "/" + wishListItem.getId());
-        return ResponseEntity.created(location).body(wishListItem);
+        try {
+            WishListItem wishListItem = wishListService.addBookToWishList(bookId);
+            URI location = new URI(WISHLIST_ITEMS_URL + "/" + wishListItem.getId());
+            return ResponseEntity.created(location).body(wishListItem);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/{id}")
@@ -43,10 +49,11 @@ public class WishListController {
             WishListItem item = wishListService.getById(id);
             // return ResponseEntity.ok(new HttpResponse<>(200, "Item found", item));
             return ResponseEntity.ok(item);
-        }  catch (NotFoundException e) {
+        } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
-            // return ResponseEntity.status(500).body(new HttpResponse<>(500, e.getMessage(), null));
+            // return ResponseEntity.status(500).body(new HttpResponse<>(500,
+            // e.getMessage(), null));
             return ResponseEntity.internalServerError().build();
         }
     }
