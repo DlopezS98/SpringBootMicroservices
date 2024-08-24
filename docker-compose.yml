@@ -3,7 +3,7 @@ services:
     image: mysql:8.2
     container_name: mysqldatabase
     ports:
-      - 9008:3306
+      - 3306:3306
     networks:
       - sfnetwork
     environment:
@@ -11,6 +11,11 @@ services:
       MYSQL_DATABASE: $MYSQL_DATABASE
       MYSQL_USER: $MYSQL_USER
       MYSQL_PASSWORD: $MYSQL_PASSWORD
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 15s
+      timeout: 10s
+      retries: 12
     volumes:
       - mysql_data:/var/lib/mysql
   elasticsearch:
@@ -24,9 +29,9 @@ services:
       - 9200:9200
     healthcheck:
       test: curl -s http://elasticsearch:9200 >/dev/null || exit 1
-      interval: 10s
-      timeout: 15s
-      retries: 30
+      interval: 15s
+      timeout: 10s
+      retries: 12
     networks:
       - sfnetwork
   books-service:
@@ -59,6 +64,15 @@ services:
     environment:
       - MS_WRITER_PORT=8080
       - EUREKA_URL=$EUREKA_URL
+      - MYSQL_HOST=$MYSQL_HOST
+      - MYSQL_PORT=$MYSQL_PORT
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - EUREKA_MS_BOOKS_URL=$EUREKA_MS_BOOKS_URL
+    depends_on:
+      mysqldatabase:
+        condition: service_healthy
   eurekaserver:
     image: eurekaserver
     container_name: eurekaserver
