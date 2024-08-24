@@ -4,18 +4,17 @@ import net.storyshelf.ms_books.dtos.CreateBookDto;
 import net.storyshelf.ms_books.dtos.FilteredBookDto;
 import net.storyshelf.ms_books.entities.Book;
 import net.storyshelf.ms_books.services.BooksService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/books")
+@RequiredArgsConstructor
 public class BooksController {
     private final BooksService booksService;
-
-    @Autowired
-    public BooksController(BooksService booksService) {
-        this.booksService = booksService;
-    }
 
     @GetMapping
     public Iterable<Book> getBooks(
@@ -36,5 +35,15 @@ public class BooksController {
     @PostMapping
     public Book addBook(@RequestBody CreateBookDto book) {
         return booksService.createBook(book);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable String id) {
+        Book book = booksService.getBookById(id).orElse(null);
+        if (book == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(book);
     }
 }

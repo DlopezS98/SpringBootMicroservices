@@ -5,21 +5,19 @@ import net.storyshelf.ms_books.dtos.FilteredBookDto;
 import net.storyshelf.ms_books.entities.Book;
 import net.storyshelf.ms_books.mappers.BookEntityMapper;
 import net.storyshelf.ms_books.repositories.BooksRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BooksService {
     private final BooksRepository booksRepository;
-
-    @Autowired
-    public BooksService(BooksRepository booksRepository) {
-        this.booksRepository = booksRepository;
-    }
 
     private boolean isNullOrEmpty(String str) {
         return str == null || str.isEmpty();
