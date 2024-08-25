@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 @RequestMapping(WishListController.WISHLIST_ITEMS_URL)
 public class WishListController {
-    public static final String WISHLIST_ITEMS_URL = "/api/wishlist/items";
+    public static final String WISHLIST_ITEMS_URL = "/api/wish-list/items";
     private final WishListService wishListService;
 
     @GetMapping()
