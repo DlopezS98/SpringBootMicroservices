@@ -1,7 +1,9 @@
 package net.storyshelf.ms_books.controllers;
 
+import net.storyshelf.ms_books.dtos.BookDto;
 import net.storyshelf.ms_books.dtos.CreateBookDto;
 import net.storyshelf.ms_books.dtos.FilteredBookDto;
+import net.storyshelf.ms_books.dtos.QueryResult;
 import net.storyshelf.ms_books.entities.Book;
 import net.storyshelf.ms_books.services.BooksService;
 
@@ -17,7 +19,7 @@ public class BooksController {
     private final BooksService booksService;
 
     @GetMapping
-    public Iterable<Book> getBooks(
+    public QueryResult<BookDto> getBooks(
         @RequestParam(defaultValue = "") String search, 
         @RequestParam(defaultValue = "") String category, 
         @RequestParam(defaultValue = "0") int offset, 
@@ -38,12 +40,12 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable String id) {
-        Book book = booksService.getBookById(id).orElse(null);
-        if (book == null) {
+    public ResponseEntity<BookDto> getBookById(@PathVariable String id) {
+        BookDto bookDto = booksService.getBookById(id).orElse(null);
+        if (bookDto == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(book);
+        return ResponseEntity.ok(bookDto);
     }
 }
