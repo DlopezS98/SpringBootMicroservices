@@ -1,13 +1,14 @@
 package net.storyshelf.ms_books.dtos;
 
-import lombok.Data;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
+
 @Data
-public class CreateBookDto {
+public class BookDto {
+    private String id;
     private String kind;
     private String etag;
     private String selfLink;

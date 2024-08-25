@@ -35,7 +35,7 @@ public class Book extends AuditableEntity {
     @Field(type = FieldType.Nested)
     private List<BookIndustryIdentifier> industryIdentifiers = new ArrayList<BookIndustryIdentifier>();
     @Field(type = FieldType.Integer)
-    private Long pageCount;
+    private Long pages;
     @Field(type = FieldType.Keyword)
     private List<String> categories = new ArrayList<String>();
     @Field(type = FieldType.Keyword)
