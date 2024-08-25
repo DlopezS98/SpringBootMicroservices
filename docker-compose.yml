@@ -34,6 +34,8 @@ services:
       retries: 12
     networks:
       - sfnetwork
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
   books-service:
     image: books-service
     container_name: ms-books-service
@@ -102,3 +104,4 @@ networks:
     driver: bridge
 volumes:
   mysql_data:
+  elasticsearch_data:
