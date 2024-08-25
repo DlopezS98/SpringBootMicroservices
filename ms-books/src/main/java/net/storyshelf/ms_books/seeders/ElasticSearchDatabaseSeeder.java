@@ -1,14 +1,16 @@
 package net.storyshelf.ms_books.seeders;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import net.storyshelf.ms_books.dtos.CreateBookDto;
 import net.storyshelf.ms_books.entities.Book;
 import net.storyshelf.ms_books.mappers.BookEntityMapper;
 import net.storyshelf.ms_books.repositories.BooksRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -36,6 +38,8 @@ public class ElasticSearchDatabaseSeeder {
         if (totalCount > 0) return;
 
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.registerModule(new JavaTimeModule());
         TypeReference<List<CreateBookDto>> typeReference = new TypeReference<>() {};
         InputStream inputStream = booksSeederResource.getInputStream();
         List<CreateBookDto> bookDtos = mapper.readValue(inputStream, typeReference);
