@@ -6,8 +6,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -54,4 +57,14 @@ public class Book extends AuditableEntity {
     private String medium;
     private String large;
     private String extraLarge;
+
+    @JsonIgnore
+    public String getCoverUrl() {
+        List<String> urls = Arrays.asList(extraLarge, large, medium, small, thumbnail, smallThumbnail);
+        return urls.stream().filter(url -> !isNullOrEmpty(url)).findFirst().orElse("");
+    }
+
+    private boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
 }

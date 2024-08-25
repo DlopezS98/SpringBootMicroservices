@@ -88,6 +88,7 @@ public class BookEntityMapper {
         links.setLarge(book.getLarge());
         links.setExtraLarge(book.getExtraLarge());
         bookDto.setImageLinks(links);
+        bookDto.setCoverUrl(book.getCoverUrl());
 
         return bookDto;
     }

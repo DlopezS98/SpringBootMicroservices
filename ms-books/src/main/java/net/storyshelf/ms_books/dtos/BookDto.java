@@ -27,4 +27,5 @@ public class BookDto {
     private String country;
     private String viewability;
     private boolean epubAvailable;
+    private String coverUrl;
 }
