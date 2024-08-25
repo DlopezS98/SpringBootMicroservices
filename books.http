@@ -1,1 +1,1 @@
-GET http://localhost:8080/ms-books/api/books?category=Fiction
+GET http://localhost:8080/ms-books/api/books?category=Computers

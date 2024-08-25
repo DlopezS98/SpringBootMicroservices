@@ -2,4 +2,4 @@
 GET http://localhost:8080/ms-writer/api/wish-list/items
 
 ### Add a new item to the wishlist
-POST http://localhost:8080/ms-writer/api/wish-list/items/25e2ca09-47c4-437b-a3aa-955b97372143
+POST http://localhost:8080/ms-writer/api/wish-list/items/47e1ca10-3c2a-4909-9891-04551b68cdcd
