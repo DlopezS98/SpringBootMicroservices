@@ -15,24 +15,43 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(indexName = "books")
-//@Setting(
-//        sortFields = {"title"},
-//        sortOrders = {Setting.SortOrder.desc, Setting.SortOrder.asc},
-//        sortMissingValues = {Setting.SortMissing._last, Setting.SortMissing._first}
-//)
+// @Setting(
+// sortFields = {"title"},
+// sortOrders = {Setting.SortOrder.desc, Setting.SortOrder.asc},
+// sortMissingValues = {Setting.SortMissing._last, Setting.SortMissing._first}
+// )
 public class Book extends AuditableEntity {
+    private String kind;
+    private String etag;
+    private String selfLink;
     @Field(type = FieldType.Keyword)
     private String title;
-    private String author;
-    @Field(type = FieldType.Keyword)
-    private String isbn;
-    private String description;
-    @Field(type = FieldType.Integer)
-    private int pages;
-    private String coverUrl;
-    @Field(type = FieldType.Date, format = DateFormat.basic_date_time)
-    private Instant publishDate;
-    @Field(type = FieldType.Keyword)
-    private List<String> categories = new ArrayList<>();
+    private String subtitle;
+    private ArrayList<String> authors = new ArrayList<String>();
     private String publisher;
+    @Field(type = FieldType.Date, format = DateFormat.basic_date_time)
+    private Instant publishedDate;
+    private String description;
+    @Field(type = FieldType.Nested)
+    private List<BookIndustryIdentifier> industryIdentifiers = new ArrayList<BookIndustryIdentifier>();
+    @Field(type = FieldType.Integer)
+    private Long pageCount;
+    @Field(type = FieldType.Keyword)
+    private List<String> categories = new ArrayList<String>();
+    @Field(type = FieldType.Keyword)
+    private String language;
+    private String previewLink;
+    @Field(type = FieldType.Keyword)
+    private String country;
+    @Field(type = FieldType.Keyword)
+    private String viewability;
+    private boolean epubAvailable;
+
+    // ImageLinks Object Properties
+    private String smallThumbnail;
+    private String thumbnail;
+    private String small;
+    private String medium;
+    private String large;
+    private String extraLarge;
 }
