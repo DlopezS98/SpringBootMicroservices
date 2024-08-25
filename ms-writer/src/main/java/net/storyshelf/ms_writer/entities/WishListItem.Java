@@ -5,7 +5,7 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 @Data
-@Entity()
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "wish_list_items")
