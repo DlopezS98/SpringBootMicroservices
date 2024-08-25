@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import net.storyshelf.ms_writer.entities.WishListItem;
+import net.storyshelf.ms_writer.exceptions.EntityConflictException;
 import net.storyshelf.ms_writer.exceptions.NotFoundException;
 import net.storyshelf.ms_writer.services.WishListService;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +40,8 @@ public class WishListController {
             return ResponseEntity.created(location).body(wishListItem);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (EntityConflictException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

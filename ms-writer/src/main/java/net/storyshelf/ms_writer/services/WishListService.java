@@ -1,10 +1,13 @@
 package net.storyshelf.ms_writer.services;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import net.storyshelf.ms_writer.dtos.BookDto;
 import net.storyshelf.ms_writer.entities.WishListItem;
+import net.storyshelf.ms_writer.exceptions.EntityConflictException;
 import net.storyshelf.ms_writer.exceptions.NotFoundException;
 import net.storyshelf.ms_writer.repositories.WishListItemRepository;
 
@@ -16,6 +19,11 @@ public class WishListService {
 
     public WishListItem addBookToWishList(String bookId) {
         BookDto bookDto = booksService.getById(bookId).orElseThrow(() -> new NotFoundException("Book not found"));
+        Optional<WishListItem> currentItem = wishListItemRepository.findByBookId(bookId);
+        if (currentItem.isPresent()) {
+            throw new EntityConflictException("Book already in wish list");
+        }
+
         WishListItem wishListItem = new WishListItem();
         wishListItem.setBookId(bookId);
         wishListItem.setBookTitle(bookDto.getTitle());
